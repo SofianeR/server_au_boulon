@@ -24,6 +24,8 @@ app.post("/form/contact/submit", async (req, res) => {
   if (req.fields.name && req.fields.email && req.fields.message) {
     // const { name, email, message } = req.fields;
 
+    const newContact = new Contact(req.fields);
+
     await newContact.save();
 
     res.status(200).json({ message: newContact, statut: "OK" });
@@ -87,6 +89,7 @@ app.post("/login/submit", async (req, res) => {
 
   try {
     if (email && password) {
+      const checkForUser = await User.findOne({ email: email.toLowerCase() });
       if (checkForUser) {
         // console.log("dans checkforuser" + checkForUser);
 
